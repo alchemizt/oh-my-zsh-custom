@@ -1,5 +1,8 @@
 #!/bin/zsh
 
+export ALC_ZSH_DIR="$PWD"
+echo "ALC_ZSH_DIR=$ALC_ZSH_DIR" >> ~/.zshrc
+
 # Function to detect if Zsh is installed
 zsh_setup() {
     apt update && sudo apt dist-upgrade -y
@@ -11,7 +14,6 @@ zsh_setup() {
     echo "plugins=(python pip composer doctl dotenv)" >> ~/.zshrc
 }
 
-zsh_setup
 
 # Check if zsh is installed
 if ! command -v zsh &> /dev/null; then

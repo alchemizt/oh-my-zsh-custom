@@ -2,6 +2,7 @@
 
 #  Digital Ocean Functions
 
+
 # Fetch the list of droplets with the ID, Name, and Public IP fields
 raw_data=$(doctl compute droplet list --format ID,Name,PublicIPv4 --no-header)
 
@@ -32,7 +33,7 @@ do_connect() {
 }
 
 # Function to get the IP of a droplet by name
-droplet_get_ip() {
+do_name_to_ip() {
     local droplet_name="$1"
     local droplet_ip=$(echo "$raw_data" | grep -w "$droplet_name" | awk '{print $3}')
     
@@ -42,6 +43,7 @@ droplet_get_ip() {
         echo "No IP found for droplet: $droplet_name"
     fi
 }
+
 
 # Function to find a droplet by name and print its details
 droplet_find_by_name() {
