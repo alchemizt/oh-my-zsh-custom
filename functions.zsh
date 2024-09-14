@@ -1,7 +1,18 @@
 #!/bin/zsh
 
+function findfast() {
+    find . -name "*$1*"
+}
+
 # Fetch the list of droplets with the ID, Name, and Public IP fields
 raw_data=$(doctl compute droplet list --format ID,Name,PublicIPv4 --no-header)
+
+# Function to list droplets with ID, Name, and IP Address
+droplist() {
+    local droplet_name="$1"
+    printf "ID\tName\tIP Address\n"  # Use printf instead of echo -e
+    echo "$raw_data" | awk '{print $1 "\t" $2 "\t" $3}'  # Correct the column order
+}
 
 # Function to list all droplet names
 droplet_list_names() {
@@ -9,13 +20,14 @@ droplet_list_names() {
 }
 
 # Function to SSH into a droplet by name
-droplet_ssh_to_name() {
+do_connect() { 
     local droplet_name="$1"
     local droplet_ip=$(echo "$raw_data" | grep -w "$droplet_name" | awk '{print $3}')
-    
+    local username="${2:-root}"  # Set 'root' as the default username if no argument is provided
+
     if [ -n "$droplet_ip" ]; then
-        echo "Connecting to $droplet_name ($droplet_ip)..."
-        ssh root@"$droplet_ip"
+        echo "Connecting to $username @ $droplet_ip"
+        ssh "$username@$droplet_ip"
     else
         echo "Droplet not found with the name: $droplet_name"
     fi
