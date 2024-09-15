@@ -1,6 +1,7 @@
 #!/bin/zsh
 
-export ALC_ZSH_DIR="$PWD"
+export ALC_ZSH_DIR=$(pwd)
+
 echo "ALC_ZSH_DIR=$ALC_ZSH_DIR" >> ~/.zshrc
 
 # Function to detect if Zsh is installed

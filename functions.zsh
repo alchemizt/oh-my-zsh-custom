@@ -52,14 +52,14 @@ find_webserver_logs() {
     if [[ "$server_type" == "apache" ]]; then
         if [[ -d "$apache_log_dir" ]]; then
             echo "Searching for Apache $log_type logs in $apache_log_dir..."
-            find "$apache_log_dir" -type f -name "$log_file" | while read -r log_file; do
+            sudo find "$apache_log_dir" -type f -name "$log_file" | while read -r log_file; do
                 echo "=== Last 10 lines of: $log_file ==="
                 tail -n 10 "$log_file"
                 echo ""
             done
         else
             echo "Apache log directory not found, searching entire system..."
-            find "$search_dir" -type f -name "$log_file" -path "*/apache2/*" 2>/dev/null | while read -r log_file; do
+            sudo find "$search_dir" -type f -name "$log_file" -path "*/apache2/*" 2>/dev/null | while read -r log_file; do
                 echo "=== Last 10 lines of: $log_file ==="
                 tail -n 10 "$log_file"
                 echo ""
